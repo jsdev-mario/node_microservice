@@ -1,0 +1,21 @@
+{
+    "name": "service-registry",
+    "version": "1.0.0",
+    "description": "service registry microservice of onlineflix",
+    "main": "bin/run",
+    "scripts": {
+        "start": "node bin/run"
+    },
+    "keywords": [
+        "service",
+        "registry",
+        "onlineflix"
+    ],
+    "author": "Lucas Zhu",
+    "license": "ISC",
+    "dependencies": {
+        "dotenv": "^10.0.0",
+        "express": "^4.17.1",
+        "semver": "^7.3.5"
+    }
+}

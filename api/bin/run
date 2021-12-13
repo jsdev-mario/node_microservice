@@ -1,0 +1,11 @@
+const http = require('http');
+require('dotenv').config();
+
+const config = require('../config')[process.env.NODE_ENV || 'development'];
+const service = require('../server')(config);
+const server = http.createServer(service);
+server.listen(process.env.PORT || 5000);
+
+server.on('listening', () => {
+    console.info(`Restful API is running on port ${server.address().port} in ${service.get('env')} mode.`);
+});

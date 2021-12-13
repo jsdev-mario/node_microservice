@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  oflix_api:
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+    container_name: oflix_api
+    networks:
+      - onlineflix
+    restart: unless-stopped
+    env_file:
+      - ./api/.env
+    depends_on:
+      - oflix_movies
+      - oflix_genres
+      - oflix_regs
+    ports:
+      - '5000:5000'
+
+  oflix_regs:
+    build:
+      context: .
+      dockerfile: ./serviceregistry/Dockerfile
+    container_name: oflix_regs
+    networks:
+      - onlineflix
+    restart: unless-stopped
+    env_file:
+      - ./serviceregistry/.env
+    ports:
+      - '3000:3000'
+
+  oflix_movies:
+    build:
+      context: .
+      dockerfile: ./movies/Dockerfile
+    container_name: oflix_movies
+    networks:
+      - onlineflix
+    restart: unless-stopped
+    env_file:
+      - ./movies/.env
+    depends_on:
+      - oflix_regs
+    ports:
+      - '5001:5001'
+
+  oflix_genres:
+    build:
+      context: .
+      dockerfile: ./genres/Dockerfile
+    container_name: oflix_genres
+    networks:
+      - onlineflix
+    restart: unless-stopped
+    env_file:
+      - ./genres/.env
+    depends_on:
+      - oflix_regs
+    ports:
+      - '5002:5002'
+
+  oflix_mongodb:
+    image: mongo
+    container_name: oflix_mongodb
+    networks:
+      - onlineflix
+    restart: unless-stopped
+    env_file: ./.env
+    volumes:
+      - dbdata:/data/db
+    ports:
+      - '27017:27017'
+    command: mongod --quiet
+
+volumes:
+  dbdata:
+
+networks:
+  onlineflix:
+    name: onlineflix
