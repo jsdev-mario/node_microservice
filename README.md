@@ -2,7 +2,7 @@
 this is node microservice test
 
 ### Development environment with docker
-$ docker-compose pull
+$ docker-compose pull  
 $ docker-compose up --build -d
 
 ### end points
